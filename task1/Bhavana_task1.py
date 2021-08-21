@@ -31,7 +31,24 @@ def readMarkSheet(file_name):
 	input_file_obj = open(file_name, 'r')
 
 	##############	ADD YOUR CODE HERE	##############
-	
+        names_marks = file_name.read()
+        print(“The details in the file : )
+        print(names_marks)
+        names_marks= names_marks.strip("name,subject_1,subject_2,subject_3,subject_4,subject_5")
+        names_marks_lst = list(names_marks.split('\n'))
+        del names_marks_lst[0]
+        string = ",".join(names_marks_lst)
+        str_lst2 = list(string.split(','))
+        for i in range(1,len(str_lst2)):
+            if(i%6==0):
+                continue;
+            else:
+                str_lst2[i] = int(str_lst2[i])
+        def list_dict(lst) : 
+            res_dict = {lst[i] : {"marks" : [lst[i+1],lst[i+2],lst[i+3],lst[i+4],lst[i+5]]} for i in range(0,len(lst),6)}
+            return res_dict; 
+        names_marks_mapping = list_dict(str_lst2)
+
 	
 
 	##################################################
@@ -81,7 +98,35 @@ def generateGradeCard(mapping_dict):
 	grade_card = {}
 
 	##############	ADD YOUR CODE HERE	##############
-	
+	grade = ['O']
+        for i in range(0,len(mapping_dict)):
+            grade.append('O')
+        x=0
+        for key in mapping_dict.keys():
+            sum = 0
+            for j in range(0,5):
+                sum += mapping_dict[key]['marks'][j]
+            percentage = sum/5
+            if(percentage>=90):
+                grade[x] = 'O'
+            elif(percentage>=70):
+                grade[x] = 'A'
+            elif(percentage>=60):
+                grade[x] = 'B'
+            elif(percentage>=50):
+                grade[x] = 'C'
+            elif(percentage>=40):
+                grade[x] = 'D'
+            else:
+                grade[x] = 'fail'
+            x=x+1
+        x=0
+        for key in mapping_dict.keys():
+            mapping_dict[key]['grade received '] = grade[x]
+            x=x+1
+        print(mapping_dict)
+        grade_card = mapping_dict
+
 	
 
 	##################################################
